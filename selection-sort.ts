@@ -1,24 +1,19 @@
 const selectionSort = (arr: number[]): number[] => {
-    for (let i = 0; i < arr.length; i++) {
-        let minIndex = i;
-        for (let j = i; j < arr.length; j++) {
-            if (arr[minIndex] > arr[j]) minIndex = j;
-        }
+    for (let i = 1; i < arr.length; i++) {
+        let j = i - 1;
         let temp = arr[i];
-        arr[i] = arr[minIndex];
-        arr[minIndex] = temp;
-    }
 
+        while (j >= 0 && arr[j] > temp) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = temp;
+    }
     return arr;
 };
 
-const n = 10;
-// create an array of n random numbers between 1 and 1000
-const arr = Array.from(
-    { length: n },
-    () => Math.floor(Math.random() * 1000) + 1
-);
+const n = 5;
+const arr = Array.from({ length: n }, () => Math.floor(Math.random() * 10) + 1);
 
 console.log(arr);
-
 console.log(selectionSort(arr));

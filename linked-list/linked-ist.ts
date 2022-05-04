@@ -8,56 +8,70 @@ class ListNode {
 }
 
 class LinkedList {
-    private head: ListNode | null = null;
+    public head: ListNode | null = null;
+    public tail: ListNode | null = null;
 
-    push(value: number) {
+    append(value: number) {
         const nn = new ListNode(value);
 
-        if (!this.head) {
+        if (!this.head || !this.tail) {
             this.head = nn;
-            return;
+            this.tail = nn;
+            return this;
         }
 
-        let temp = this.head;
+        this.tail.next = nn;
+        this.tail = nn;
+    }
 
-        while (temp.next) temp = temp.next;
+    prepend(value: number) {
+        const nn = new ListNode(value);
 
-        temp.next = nn;
+        if (!this.head || !this.tail) {
+            this.head = nn;
+            this.tail = nn;
+            return this;
+        }
+        nn.next = this.head;
+        this.head = nn;
     }
 
     pop() {
-        if (!this.head) throw Error("Stack Underflow");
+        if (!this.head) throw Error("Stack underflow");
 
-        if (!this.head.next) {
+        if (this.head.next === null) {
             this.head = null;
+            this.tail = null;
             return;
         }
 
-        let temp = this.head;
+        let current = this.head;
+        let prevNode = null;
+        if (!current) return;
 
-        while (temp.next?.next) {
-            temp = temp.next;
+        while (current.next) {
+            prevNode = current;
+            current = current.next;
         }
 
-        temp.next = null;
+        if (prevNode) {
+            prevNode.next = null;
+            this.tail = prevNode;
+        }
     }
 
-    insert(value: number, position: number) {
-        let nn = new ListNode(value);
+    shift() {
+        if (!this.head) throw Error("Stack underflow error");
 
-        if (position === 1) {
-            nn.next = this.head;
-        }
-        let temp = this.head;
-
-        for (let i = 2; i < position; i++) {
-            if (!temp) throw Error("Invalid position");
-            else temp = temp.next;
+        if (this.head.next === null) {
+            this.head = null;
+            this.tail = null;
+            return;
         }
 
-        nn.next = temp?.next as ListNode;
-        if (temp === null) throw Error("Cannot insert");
-        temp.next = nn;
+        let temp = this.head.next;
+        this.head = null;
+        this.head = temp;
     }
 
     view() {
@@ -73,9 +87,17 @@ class LinkedList {
 
 const ll = new LinkedList();
 
-ll.push(1);
-ll.push(2);
-ll.push(3);
-ll.insert(5, 3);
+ll.append(1);
+ll.append(2);
+ll.append(3);
+ll.append(4);
+ll.append(5);
+ll.shift();
+ll.shift();
+ll.shift();
+ll.shift();
+ll.shift();
+
+console.log(ll.tail);
 
 console.log(ll.view());
