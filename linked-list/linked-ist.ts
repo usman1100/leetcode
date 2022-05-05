@@ -24,6 +24,10 @@ class LinkedList {
         this.tail = nn;
     }
 
+    empty(): boolean {
+        return this.head === null;
+    }
+
     prepend(value: number) {
         const nn = new ListNode(value);
 
@@ -125,6 +129,54 @@ class LinkedList {
         throw Error("Not found");
     }
 
+    twoSum(sum: number): number[] {
+        let i = this.head;
+
+        let n_i = 0,
+            n_j = 0;
+
+        while (i) {
+            let j = i.next;
+            n_j = n_i + 1;
+
+            while (j) {
+                if (i.value + j.value === sum) return [n_i, n_j];
+                n_j++;
+                j = j.next;
+            }
+            n_i++;
+            i = i.next;
+        }
+
+        return [-1, -1];
+    }
+
+    max() {
+        if (!this.head) throw Error("List is empty");
+
+        let maxValue = Number.MIN_VALUE;
+        let temp = this.head;
+
+        while (temp) {
+            if (temp.value > maxValue) maxValue = temp.value;
+            temp = temp.next as ListNode;
+        }
+        return maxValue;
+    }
+
+    min() {
+        if (!this.head) throw Error("List is empty");
+
+        let minValue = Number.MAX_VALUE;
+        let temp = this.head;
+
+        while (temp) {
+            if (temp.value < minValue) minValue = temp.value;
+            temp = temp.next as ListNode;
+        }
+        return minValue;
+    }
+
     view() {
         let temp = this.head;
         let data = "";
@@ -138,9 +190,12 @@ class LinkedList {
 
 const ll = new LinkedList();
 
-ll.append(1);
-ll.append(2);
-ll.append(3);
-ll.append(4);
-ll.append(5);
+const LIMIT = 7;
+for (let i = 0; i < LIMIT; i++) {
+    ll.append(Math.floor(Math.random() * 10) + 1);
+}
+console.log(ll.max());
+console.log(ll.min());
+
+console.log(ll.twoSum(10));
 console.log(ll.view());
