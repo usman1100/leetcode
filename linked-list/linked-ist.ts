@@ -11,6 +11,14 @@ class LinkedList {
     public head: ListNode | null = null;
     public tail: ListNode | null = null;
 
+    constructor(init?: number[]) {
+        if (init) {
+            init.forEach((e) => {
+                this.append(e);
+            });
+        }
+    }
+
     append(value: number) {
         const nn = new ListNode(value);
 
@@ -188,12 +196,12 @@ class LinkedList {
     }
 }
 
-const ll = new LinkedList();
+const ll = new LinkedList([1, 2, 3, 4, 5, 6, 7, 8]);
 
 const LIMIT = 7;
-for (let i = 0; i < LIMIT; i++) {
-    ll.append(Math.floor(Math.random() * 10) + 1);
-}
+// for (let i = 0; i < LIMIT; i++) {
+//     ll.append(Math.floor(Math.random() * 10) + 1);
+// }
 console.log(ll.max());
 console.log(ll.min());
 
